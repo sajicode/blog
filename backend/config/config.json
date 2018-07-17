@@ -1,0 +1,12 @@
+{
+  "test": {
+    "PORT": 3100,
+    "MONGODB_URI": "mongodb://localhost:27017/blogTest",
+    "SECRET": "kamikaze"
+  },
+  "development": {
+    "PORT": 3100,
+    "MONGODB_URI": "mongodb://localhost:27017/blog",
+    "SECRET": "kamikaze"
+  }
+}
