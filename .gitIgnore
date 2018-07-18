@@ -1,2 +1,2 @@
 /backend/node_modules
-/backend/config/config.json
+backend/config/*.json
