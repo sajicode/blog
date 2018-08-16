@@ -14,7 +14,8 @@ router.route('/')
 
 
 router.route('/:id')
-  .get(authenticate, userController.getUser);
+  .get(authenticate, userController.getUser)
+  .put(authenticate, userController.updateUser)
 
 
 module.exports = router;

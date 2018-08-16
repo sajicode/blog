@@ -56,3 +56,20 @@ exports.fetchUsers = function(req, res) {
       res.status(200).send({users});
     }).catch(e => res.status(400).send(e));
 };
+
+exports.updateUser = function(req, res) {
+  let userId = req.params.id;
+  let data = req.body;
+
+  User.findByIdAndUpdate(
+    {_id: userId},
+    {$set: data},
+    {new: true}
+  ).then(user => {
+    if(!user) {
+      return res.status(404).send("No user found")
+    }
+
+    res.status(200).send({user});
+  }).catch(e => res.status(400).send(e));
+};
