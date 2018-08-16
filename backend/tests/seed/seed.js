@@ -15,7 +15,7 @@ const users = [
     tokens: [{
       token: jwt.sign(
         {_id: userOneId},
-        process.env.SECRET
+        "password"
       ).toString()
     }]
   },
@@ -28,7 +28,7 @@ const users = [
     tokens: [{
       token: jwt.sign(
         {_id: userTwoId},
-        process.env.SECRET
+        "password"
       ).toString()
     }]
   }
