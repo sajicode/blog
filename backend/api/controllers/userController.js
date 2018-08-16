@@ -13,6 +13,7 @@ exports.addUser = function(req, res) {
     }).then(token => {
       res.header('auth', token).send(user);
     }).catch(err => {
+      console.log(err);
       res.status(400).send(err);
     });
 };

@@ -47,12 +47,18 @@ const UserSchema = new mongoose.Schema({
 			blogPosts: [{
 				type: mongoose.Schema.Types.ObjectId,
 				ref: 'blogPost'
-			}]
+			}],
+
+			createdAt: {
+				type: Date,
+				default: new Date().toString()
+			}
 
 });
 
 UserSchema.methods.generateAuthToken = function() {
 	let user = this;
+	let access = "auth";
 	let token = jwt.sign(
 		{ _id: user._id.toHexString()},
 		process.env.SECRET,
@@ -112,7 +118,7 @@ UserSchema.pre('save', function(next) {
 	let user = this;
 
 	if(user.isModified('password')) {
-		bcrypt.genSalt(20, (err, salt) => {
+		bcrypt.genSalt(10, (err, salt) => {
 			bcrypt.hash(user.password, salt, (err, hash) => {
 				user.password = hash;
 				next();
