@@ -36,11 +36,12 @@ const UserSchema = new mongoose.Schema({
 
 			photo: String,
 
-			tokens: [
+			tokens: [{
 				token: {
 					type: String,
 					required: true
 				}
+			}
 			],
 
 			blogPosts: [{
@@ -58,7 +59,7 @@ UserSchema.methods.generateAuthToken = function() {
 		{expiresIn: 60 * 60 * 24 * 7}
 	).toString();
 
-	user.tokens.push(token);
+	user.tokens.push({token});
 
 	return user.save().then(() => token);
 };
@@ -101,6 +102,7 @@ UserSchema.findByCredentials = function(email, password) {
 	});
 };
 
+// get number of posts per user
 UserSchema.virtual('postCount').get(function() {
 	let user = this;
 	return user.blogPots.length;
@@ -125,7 +127,7 @@ UserSchema.pre('remove', function(next) {
 	let User = this;
 
 	const BlogPost = mongoose.model('blogPost');
-	BlogPost.remove({_id: {$in: this.blogPosts }}).then(() => next());
+	BlogPost.remove({_id: {$in: User.blogPosts }}).then(() => next());
 });
 
 const User = mongoose.model('user', UserSchema);
