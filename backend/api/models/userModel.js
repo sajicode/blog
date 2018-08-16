@@ -58,7 +58,6 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.methods.generateAuthToken = function() {
 	let user = this;
-	let access = "auth";
 	let token = jwt.sign(
 		{ _id: user._id.toHexString()},
 		process.env.SECRET,
@@ -87,7 +86,7 @@ UserSchema.statics.findByToken = function(token) {
 };
 
 // for login
-UserSchema.findByCredentials = function(email, password) {
+UserSchema.statics.findByCredentials = function(email, password) {
 	let User = this;
 	return User.findOne({
 		email

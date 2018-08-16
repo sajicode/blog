@@ -17,3 +17,14 @@ exports.addUser = function(req, res) {
       res.status(400).send(err);
     });
 };
+
+exports.loginUser = function(req, res) {
+
+  User.findByCredentials(req.body.email, req.body.password)
+    .then(user => {
+      return user.generateAuthToken()
+        .then(token => {
+          res.header('auth', token).send(user);
+        });
+    }).catch(e => res.status(400).send("Invalid email and/or password"));
+}

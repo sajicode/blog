@@ -6,5 +6,8 @@ const express = require('express'),
 router.route('/register')
   .post(userController.addUser);
 
+router.route('/login')
+  .post(userController.loginUser);
+
 
 module.exports = router;
