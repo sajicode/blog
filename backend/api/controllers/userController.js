@@ -73,3 +73,16 @@ exports.updateUser = function(req, res) {
     res.status(200).send({user});
   }).catch(e => res.status(400).send(e));
 };
+
+exports.deleteUser = function(req, res) {
+  let userId = req.params.id;
+
+  User.findByIdAndRemove(userId)
+    .then(user => {
+      if(!user) {
+        return res.status(404).send("No user found");
+      }
+
+      res.status(200).send({user});
+    }).catch(e => res.status(400).send(e));
+};
