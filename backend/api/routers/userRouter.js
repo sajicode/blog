@@ -9,5 +9,12 @@ router.route('/register')
 router.route('/login')
   .post(userController.loginUser);
 
+router.route('/')
+  .get(authenticate, userController.fetchUsers);
+
+
+router.route('/:id')
+  .get(authenticate, userController.getUser);
+
 
 module.exports = router;
