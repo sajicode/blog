@@ -13,10 +13,10 @@ const users = [
     email: "simi@design.com",
     password: "rebecca",
     tokens: [{
+      access: 'auth',
       token: jwt.sign(
-        {_id: userOneId},
-        "password"
-      ).toString()
+        {_id: userOneId, access: 'auth'},
+        "mysecret").toString()
     }]
   },
   {
@@ -26,10 +26,10 @@ const users = [
     email: "wendy@canada.com",
     password: "olubunmi",
     tokens: [{
+      access: 'auth',
       token: jwt.sign(
-        {_id: userTwoId},
-        "password"
-      ).toString()
+        {_id: userTwoId, access: 'auth'},
+        "mysecret").toString()
     }]
   }
 ];

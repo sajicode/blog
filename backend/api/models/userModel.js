@@ -37,6 +37,10 @@ const UserSchema = new mongoose.Schema({
 			photo: String,
 
 			tokens: [{
+				access: {
+					type: String,
+					required: true
+				},
 				token: {
 					type: String,
 					required: true
@@ -56,15 +60,20 @@ const UserSchema = new mongoose.Schema({
 
 });
 
+UserSchema.methods.toJSON = function() {
+	let user = this;
+	let userObject = user.toObject();
+}
+
 UserSchema.methods.generateAuthToken = function() {
 	let user = this;
+	let access = 'auth';
 	let token = jwt.sign(
-		{ _id: user._id.toHexString()},
-		process.env.SECRET,
-		{expiresIn: 60 * 60 * 24 * 7}
+		{ _id: user._id.toHexString(), access},
+		process.env.SECRET
 	).toString();
 
-	user.tokens.push({token});
+	user.tokens.push({access, token});
 
 	return user.save().then(() => token);
 };
@@ -81,7 +90,8 @@ UserSchema.statics.findByToken = function(token) {
 
 	return User.findOne({
 		_id: decoded._id,
-		'tokens.token': token
+		'tokens.token': token,
+		'tokens.access': 'auth'
 	});
 };
 
