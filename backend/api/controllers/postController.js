@@ -30,6 +30,7 @@ module.exports.getPost = function(req, res) {
 
   Post.findById(postId)
     .populate('author')
+    .populate('comments')
     .then(post => {
       if(!post) {
         return res.status(400).send("Unable to get Post");
@@ -49,6 +50,7 @@ module.exports.fetchPosts = function(req, res) {
 
   Post.find({author})
     .populate('author')
+    .populate('comments')
     .then(posts => {
       if(!posts) {
         return res.status(400).send("Found no posts");
