@@ -5,6 +5,7 @@ const express = require('express'),
 
 router.route('/:id')
   .post(authenticate, commentController.addComment)
+  .get(authenticate, commentController.getComment)
 
 
 module.exports = router;

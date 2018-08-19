@@ -50,7 +50,7 @@ module.exports.fetchPosts = function(req, res) {
 
   Post.find({author})
     .populate('author')
-    .populate('comments')
+    .populate('comments.user')
     .then(posts => {
       if(!posts) {
         return res.status(400).send("Found no posts");

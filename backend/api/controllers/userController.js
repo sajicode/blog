@@ -49,6 +49,7 @@ exports.getUser = function(req, res) {
 
 exports.fetchUsers = function(req, res) {
   User.find({})
+    .populate('blogPosts')
     .then(users => {
       if(!users) {
         return res.status(404).send("No users found");
