@@ -1,7 +1,8 @@
 const mongoose = require('mongoose'),
       validator = require('validator'),
       jwt = require('jsonwebtoken'),
-      bcrypt = require('bcryptjs');
+			bcrypt = require('bcryptjs'),
+			_ = require('lodash');
 
 const UserSchema = new mongoose.Schema({
       firstname: {
@@ -63,7 +64,9 @@ const UserSchema = new mongoose.Schema({
 UserSchema.methods.toJSON = function() {
 	let user = this;
 	let userObject = user.toObject();
-}
+
+	return _.pick(userObject, ['_id', 'firstname', 'lastname', 'email', 'blogPosts', 'createdAt']);
+};
 
 UserSchema.methods.generateAuthToken = function() {
 	let user = this;

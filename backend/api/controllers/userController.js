@@ -37,6 +37,7 @@ exports.getUser = function(req, res) {
   }
 
   User.findById(userId)
+    .populate('blogPosts')
     .then(user => {
       if(!user) {
         return res.status(404).send("User not found");

@@ -5,6 +5,7 @@ const express = require('express'),
 
 router.route('/')
   .post(authenticate, postController.createPost)
+  .get(authenticate, postController.fetchPosts)
   
 router.route('/:id')
   .get(authenticate, postController.getPost)
