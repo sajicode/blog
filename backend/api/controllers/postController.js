@@ -6,7 +6,7 @@ module.exports.createPost = function(req, res) {
   let author = req.user._id;
 
   if(!ObjectID.isValid(author)) {
-    res.status(400).send("Invalid Id");
+    return res.status(400).send("Invalid Id");
   }
 
   req.body.author = author;
@@ -32,7 +32,7 @@ module.exports.getPost = function(req, res) {
     .populate('author')
     .then(post => {
       if(!post) {
-        res.status(400).send("Unable to get Post");
+        return res.status(400).send("Unable to get Post");
       }
 
       res.status(200).send(post);
@@ -44,17 +44,39 @@ module.exports.fetchPosts = function(req, res) {
   let author = req.user._id;
 
   if(!ObjectID.isValid(author)) {
-    res.status(400).send("Invalid Id");
+    return res.status(400).send("Invalid Id");
   }
 
   Post.find({author})
     .populate('author')
     .then(posts => {
       if(!posts) {
-        res.status(400).send("Found no posts");
+        return res.status(400).send("Found no posts");
       }
 
       res.status(200).send({posts});
     })
     .catch(e => res.status(400).send(e));
+};
+
+module.exports.editPost =  function(req, res) {
+  let postId = req.params.id;
+  let author = req.user._id;
+  let data = req.body;
+
+  Post.findByIdAndUpdate(
+    {_id: postId},
+    {$set: data},
+    {new: true}
+  ).then(post => {
+    if(!post) {
+      return res.status(400).send("Unable to update post")
+    }
+
+    res.status(200).send({post});
+  }).catch(e => {
+    console.log(e)
+    res.status(400).send(e)
+  });
+  
 };

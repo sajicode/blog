@@ -9,6 +9,7 @@ router.route('/')
   
 router.route('/:id')
   .get(authenticate, postController.getPost)
+  .put(authenticate, postController.editPost)
 
 
 module.exports = router;
