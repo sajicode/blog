@@ -61,7 +61,6 @@ module.exports.fetchPosts = function(req, res) {
 
 module.exports.editPost =  function(req, res) {
   let postId = req.params.id;
-  let author = req.user._id;
   let data = req.body;
 
   Post.findByIdAndUpdate(
@@ -79,4 +78,15 @@ module.exports.editPost =  function(req, res) {
     res.status(400).send(e)
   });
   
+};
+
+module.exports.deletePost = function(req, res) {
+  let postId = req.params.id;
+
+  Post.findByIdAndRemove(postId)
+    .then(post => {
+      if(!post) { return res.status(400).send("Post not found")}
+      res.status(200).send(post);
+    })
+    .catch(e => res.status(400).send(e));
 };
