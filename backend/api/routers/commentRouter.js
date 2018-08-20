@@ -6,6 +6,7 @@ const express = require('express'),
 router.route('/:id')
   .post(authenticate, commentController.addComment)
   .get(authenticate, commentController.getComment)
+  .delete(authenticate, commentController.deleteComment);
 
 router.route('/post/:id')
   .get(authenticate, commentController.fetchCommentsByPost);

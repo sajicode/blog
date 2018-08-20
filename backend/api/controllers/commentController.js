@@ -59,3 +59,14 @@ exports.fetchCommentsByAuthor = function (req, res) {
     })
     .catch(e => res.status(400).send(e));
 };
+
+exports.deleteComment = function(req, res) {
+  let commentId = req.params.id;
+
+  Comment.findByIdAndRemove(commentId)
+    .then(comment => {
+      if(!comment) { return res.status(400).send("Comment not found")};
+      res.status(200).send({comment});
+    })
+    .catch(e => res.status(400).send(e));
+};
