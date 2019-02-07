@@ -1,9 +1,18 @@
 const expect = require('expect');
 const request = require('supertest');
-const {ObjectID} = require('mongodb');
-const {app} = require('../app');
-const {User} = require('../api/models/userModel');
-const {users, populateUsers} = require('./seed/seed');
+const {
+  ObjectID
+} = require('mongodb');
+const {
+  app
+} = require('../app');
+const {
+  User
+} = require('../api/models/userModel');
+const {
+  users,
+  populateUsers
+} = require('./seed/seed');
 
 beforeEach(populateUsers);
 
@@ -17,19 +26,26 @@ describe('#USERS', () => {
 
       request(app)
         .post('/api/users/register')
-        .send({email, password, firstname, lastname})
+        .send({
+          email,
+          password,
+          firstname,
+          lastname
+        })
         .expect(200)
         .expect(res => {
-          expect(res.headers['auth']).toBeTruthy();
+          expect(res.header['auth']).toBeTruthy();
           expect(res.body.user._id).toBeTruthy();
           expect(res.body.user.email).toBe(email);
         })
         .end(err => {
-          if(err) {
+          if (err) {
             return done(err);
           }
 
-          User.findOne({email}).then(user => {
+          User.findOne({
+            email
+          }).then(user => {
             expect(user).toBeTruthy();
             expect(user.password).not.toBe(password);
             done();
@@ -51,6 +67,6 @@ describe('#USERS', () => {
         .end(done);
     });
   })
-  
-  
+
+
 });
